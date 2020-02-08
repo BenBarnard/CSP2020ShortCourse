@@ -10,7 +10,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
 
@@ -62,9 +62,36 @@ R Markdown is a document format built to embed R code chunks in Markdown documen
 
 ### Why should I use R Markdown
 
+R markdown provides a medium to attach and run code inside the content for dashboards, articles, reports, websites, powerpoints and books. This medium provides a reproducible and portable format that works with text based version control systems. These characteristics generally make R markdown documents easy to put into production systems 
+
 ### How to start an R Markdown document
 
+As previously mentioned R markdown plays well with text based version control systems, and that is because at its core an R markdown document is just a text file. R markdown files have .rmd extensions but you could potentially render any text file no matter the extension. If you expect the RStudio IDE to recognize an R markdown document it needs the .rmd extension. Let us take the easy route and create an R markdown document from the RStudio IDE menu.
+
+![](new_markdown_menu.png)
+
+![](new_markdown_thumbnail.png)
+
+
+
+
 ### Structure of an R Markdown document
+
+```{yaml}
+---
+title: "Untitled"
+author: "Name"
+date: "Date"
+output: pdf_document
+---
+```
+
+````markdown
+`r ''````{r}
+1 + 1
+```
+````
+
 
 ### Rendering R Markdown documents
 
