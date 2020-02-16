@@ -86,9 +86,11 @@ output: pdf_document
 ---
 ```
 
-```{r}
+````markdown
+`r ''````{r}
 1 + 1
 ```
+````
 
 ## PDF documents
 
@@ -211,10 +213,27 @@ output:
 
 ## Lets Start building a report 
 
-
+Now that we have seen all these options lets start building a rmarkdown report on Iris Petal and Sepal Length. We are using the Iris data set as a minimal example to base our future template. We will end up renaming some things later on. Lets start by starting a new r markdown document by going to File > New File > R Markdown... You can fill out the title and author to anything you want because we will change these later on. Make sure you choose PDF, but it isn't the end of the world if you don't.
 
 
 ### Building the header
+
+Our header should look something like this:
+
+```{}
+---
+title: "Iris Petal and Sepal Length"
+author: "Ben Barnard"
+date: "February 15, 2020"
+output: pdf_document
+---
+```
+
+I plan to run this report many times and I would like the date to update each time I run the report.
+
+### Running R code in the yaml
+
+To run R code in the YAML header we just need to add `!r` before the R code we wish to run. In this case I want to run `Sys.Date()` to use the run date for the report date.
 
 ```{}
 ---
@@ -225,14 +244,35 @@ output: pdf_document
 ---
 ```
 
-### Running R code in the yaml
+I think thats the important stuff for the header right now. Let us start working on the body. 
+
+### R markdown body
+
+Notice the first code chunk in document. The `knitr::opts_chunk$set(echo = TRUE)` sets the code chunk options for the rest of the code chunks in the document. Depending on the audience we might want to set `echo = FALSE`, and we might also want to set `message = FALSE` and `warning = FALSE`. 
 
 
+````markdown
+`r ''````{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+````
+
+Now lets add some body to the document. All analyses need some sort of introduction or executive summary.
+
+```
+## Executive Summary
+
+This analysis descrbes the design and results of our correlation analysis of iris sepal length and petal length. This is just a minimal example for our analysis template.
+
+### 
 
 
+```
 
 
 ## Rendering R Markdown documents
+
+There are two ways to render an r markdown document using the knit button in the RStudio IDE or `render` available in the `rmarkdown` package. 
 
 ### Knit
 
