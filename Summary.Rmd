@@ -58,11 +58,11 @@ We discuss the R Markdown document format developed by [RStudio](https://rstudio
 
 ## What is R Markdown
 
-R Markdown is a document format built to embed R code chunks in Markdown documents. R Markdown documents remove most of the formating aspects of report generation to a "backend." R Markdown can be used to generate many different output some of which are websites, pdfs, presentations, shiny, and Word documents. In this course we are going to focus on pdf documents, but in general the same R Markdown document can be used to produce all of the above with minimal changes.
+R Markdown is a document format built to embed R code chunks in Markdown documents. R Markdown documents remove most of the formatting aspects of report generation to a "back-end." R Markdown can be used to generate many different output some of which are websites, PDFs, presentations, shiny, and Word documents. In this course we are going to focus on PDFs documents, but in general the same R Markdown document can be used to produce all of the above with minimal changes.
 
 ## Why should I use R Markdown
 
-R markdown provides a medium to attach and run code inside the content for dashboards, articles, reports, websites, powerpoints and books. This medium provides a reproducible and portable format that works with text based version control systems. These characteristics generally make R markdown documents easy to put into production systems 
+R markdown provides a medium to attach and run code inside the content for dashboards, articles, reports, websites, PowerPoint and books. This medium provides a reproducible and portable format that works with text based version control systems. These characteristics generally make R markdown documents easy to put into production systems 
 
 ## How to start an R Markdown document
 
@@ -77,7 +77,7 @@ As previously mentioned R markdown plays well with text based version control sy
 
 ## Structure of an R Markdown document
 
-```{yaml}
+```{}
 ---
 title: "Untitled"
 author: "Name"
@@ -92,9 +92,9 @@ output: pdf_document
 
 ## PDF documents
 
-R markdown can be used to build pdf documents using latex. We can usually tell what R markdown documents are going to render as pdfs by output specified in the yaml header.
+R markdown can be used to build PDFs documents using latex. We can usually tell what R markdown documents are going to render as PDFs by output specified in the yaml header.
 
-```{yaml}
+```{}
 ---
 title: "Untitled"
 author: "Name"
@@ -103,13 +103,13 @@ output: pdf_document
 ---
 ```
 
-The pdf_document output option actually references a function. We are going to create our own output function that wraps the pdf_document function. This will end up being one of the few functions in the R package we will build. We will discuss further in the R package portion of the course. The pdf_document function has some options that we can specify in the yaml of our R markdown document. These next subsections discuss some of these options.
+The PDFs_document output option actually references a function. We are going to create our own output function that wraps the PDFs_document function. This will end up being one of the few functions in the R package we will build. We will discuss further in the R package portion of the course. The PDFs_document function has some options that we can specify in the yaml of our R markdown document. These next subsections discuss some of these options.
 
 ### Table of contents
 
-For longer reports and documents it is useful to have a Table of Contents. The pdf documents generated from R markdown can automatically build the table of contents for you. We can build the table of contents by setting `toc: true` in the yaml options under the `pdf_document` output.  You might also notice that `toc` is a function call option in `pdf_document`, and we should expect it to be listed under `pdf_document` in the yaml.
+For longer reports and documents it is useful to have a Table of Contents. The PDFs documents generated from R markdown can automatically build the table of contents for you. We can build the table of contents by setting `toc: true` in the yaml options under the `pdf_document` output.  You might also notice that `toc` is a function call option in `pdf_document`, and we should expect it to be listed under `pdf_document` in the yaml.
 
-```{yaml}
+```{}
 ---
 title: "Untitled"
 author: "Name"
@@ -121,23 +121,102 @@ output:
 ---
 ```
 
-Another option under `pdf_document` was added with `toc`. The yaml `toc_depth` should always be added with `toc: true`. It isn't that you can't specify it, but there really isn't much of a reason to specify it. The `toc_depth` or table of contents depth sets the depth of sections/subsections listed in the table of contents. The number specified by `toc_depth` corresponds to the number of # preceeding your section/subsection name in the R markdown document. If you wonder why the subsection isn't showing up in the table of contents then you should count the #s and see if that count matches the `toc_depth`.
+Another option under `pdf_document` was added with `toc`. The yaml `toc_depth` should always be added with `toc: true`. It isn't that you can't specify it, but there really isn't much of a reason to specify it. The `toc_depth` or table of contents depth sets the depth of sections/subsections listed in the table of contents. The number specified by `toc_depth` corresponds to the number of # preceding your section/subsection name in the R markdown document. If you wonder why the subsection isn't showing up in the table of contents then you should count the #s and see if that count matches the `toc_depth`.
 
 ### Figure options
+
+The `pdf_document` function has several figure options you can put in the r markdown yaml header. The options `fig_width` and `fig_height` specify the default width and height in inches for figures in the document. You might notice that `fig_width` and `fig_height` have default values in the `pdf_document` function as 6.5 and 4.5 inches respectively. The `fig_crop` options controls whether the `pdfcrop` utility is used. The `pdfcrop` utility trims white-space or fixed borders from PDFs graphics. Most people wouldn't notice anything is being done, but it is recommended by the developers to use the `fig_crop` option. The `fig_crop` option is defaulted to `TRUE`. The `fig_caption` option controls whether captions should be rendered with figures. Finally, the `dev` option is for the graphics device used to produce figure output. The `dev` option is `pdf` by default but this could potentially be `png` or `jpeg`. I only ever find it worth while to change the `fig_height` and `fig_width` options to maximize the figure size on the viewable page.
+
+```{}
+title: "Unititled"
+output:
+  pdf_document:
+    fig_width: 7
+    fig_height: 6
+```
+
 ### Data frame printing
+
+The `df_print` option lets us change the display of data frames in our output. Options include `default`, `kable`, and `tibble`. I never really just print data frames in my output, and there is generally some formatting before they are presentation ready. I usually leave this option as it is and build my presentation tables with the `xtable` package.
+
+```{}
+---
+title: "Untitled"
+output:
+  pdf_document:
+    df_print: kable
+---
+```
+
 ### Syntax highlighting
+
+The `highlight` option specifies how code chunks are displayed in the document. Some options you can use are `default`, `espresso`, `haddock`, `kate`, `monochrome`, `pygments`, `tango`, and `zenburn`. Please don't ever using any of the dark themes.
+
 ### Latex options
+
+Aside form the options we see in `pdf_document` there are also options that are specified in the top-level YAML header. These top-level options can also be specified within the `render` function, but this is only important if you want to change the defaults.
+
+| Variable                                  | Description                                               |
+|-------------------------------------------|-----------------------------------------------------------|
+| lang                                      | Document language code                                    |
+| fontsize                                  | Font size (e.g., `10pt`, `11pt`, or `12pt`)               |
+| documentclass                             | LaTex document class (e.g., `article`)                    |
+| classoption                               | Options for documentclass (e.g., `oneside`)               |
+| geometry                                  | Options for geometry class (e.g., `margin=1in`)           |
+| mainfont, sansfont, monofont, mathfont    | Document fonts (works only with `xelatex` and `lualatex`) |
+| linkcolor, urlcolor, citecolor            | Color for internal, external, and citation links          |
+
+Table: Top-level LaTex YAML options.
+
+We are going to simplify our LaTex templates significantly and remove many of these options, but these are available in the default LaTex template shipped with `rmarkdown`.
+
+
 ### Latex packages for citations
+
+The developers suggest using a LaTex citation package might produce better results than the default `pando-citeproc`. The LaTex packages `natbib` and `biblatex` are two options. I don't see much reason to change this option even with PDF documents. To use citations you will need to specify a bibliography with the top-level YAML `bibliography` or use inline references. I do not recommend inline references. My suggestion would be to use a bibliography manager and export you bibliography in one of the acceptable formats.
+
+| Format        | File extension |
+|---------------|----------------|
+| MODS          | .mods          |
+| BibLaTeX      | .bib           |
+| BibTeX        | .bibtex        |
+| RIS           | .ris           |
+| EndNote       | .enl           |
+| EndNote XML   | .xml           |
+| ISI           | .wos           |
+| MEDLINE       | .medline       |
+| Copac         | .copac         |
+| JSON citeproc | .json          |
+
+Table: Bibliography formats
+
 ### Advanced customization
-### Other features
+
+There a a few options that allow us to do some more customization and debugging of the underlying LaTeX code. We can specify the `latex_engine` used such as `pdflatex`, `xelatex`, and `lualatex`. We can also keep the intermediate LaTeX code using `keep_tex: true`, and include snippets of LaTeX code in the document. The option `includes` allows us to put code `in_header`, `before_body`, and `after_body`. What wwe are going to end up using and is the power behind document templates is the `template` option, but we aren't going to specify our template in document YAML header.
+
+```{}
+---
+title: "Habits"
+output:
+  pdf_document:
+    latex_engin: pdflatex
+    keep_tex: true
+    includes:
+      in_header: preamble.tex
+      before_body: doc-prefix.tex
+      after_body: doc-suffix.tex
+    template: custom-template.tex
+---
+```
 
 ## Lets Start building a report 
 
 
 
+
 ### Building the header
 
-```{yaml}
+```{}
 ---
 title: "Iris Petal and Sepal Length"
 author: "Ben Barnard"
@@ -149,7 +228,6 @@ output: pdf_document
 ### Running R code in the yaml
 
 
-###
 
 
 
@@ -172,7 +250,7 @@ output: pdf_document
 ### CSS
 ### Julia
 ### C
-### Fortran
+### FORTRAN
 
 
 \newpage
