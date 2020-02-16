@@ -1,0 +1,42 @@
+---
+title: "Getting Started"
+description: "Short course setup for Conference on Statistical Practice 2020"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+## Course Outline
+
+### Abstract
+
+Branded reports give a clean, clear and consistent message for data science teams in an organization. We walk through the process of building a latex template distributed through an R package. We begin with a short introduction to rmarkdown and some motivating examples for using branded reports. Then, we demonstrate from scratch how one can build a minimal latex template, and distribute in a R package. We describe some best practices for branding and highlight use of ggplot2 themes to match document branding. Finally, we walk through some further uses such as parameterized reports, using the template for bookdown, and recommendation for deploying the R package at your company.
+
+### Learning Objectives
+
+The student should be able to walk away from this class with:
+
+1. a general understanding of rmarkdown,
+2. why it is important to have branded reports,
+3. a R package with a latex template that uses their companies branding,
+4. understanding of best practices in branding,
+5. use of ggplot2 themes,
+6. and some possible further uses for the using and distributing the template.
+
+### About the Instructor
+
+Ben Barnard is a Data Scientist at Wells Fargo in the Team Member Insights group. Ben has a PhD from Baylor University in Statistics.
+
+Jeff Idle is an Analytic Manager at Wells Fargo in the Team Member Insights group. Jeff leads the HR Advanced Analytics & Architecture team. Jeff is currently pursuing a MBA from the University of Minnesota's Carlson School of Management.
+
+
+### Relevance to Conference Goals
+
+We stress using branded reports to communicate clean, clear and consistent messages to your audience. Communication is the most important part of Data Science since decision makers are rarely analytic experts. Branded reports bring a certain professionalism that will be greatly appreciated by administration. Building the latex templates saves time and makes sure every report comes out looking the same. Consistently branded reports allows your team to be recognized immediately by your work product.
+
+
+## Getting Started
+

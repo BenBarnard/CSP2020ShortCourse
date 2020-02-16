@@ -1,66 +1,28 @@
 ---
-title: "Building LaTeX Templates for R Markdown to Produce Branded PDF Reports"
-subtitle: "CSP 2020 Short Course"
-author: "Ben Barnard"
-date: "February 20, 2019"
+title: "Introduction to R Markdown"
+description: "An introductory course to R Markdown for a short course at the Conference on Statistical Practice 2020." 
 output: 
-  pdf_document:
-    toc: true
-    toc_depth: 3
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+library(learnr)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE, fig.pos = 'H', fig.align="center")
 ```
 
 
-\newpage
-
-# Course Outline
-
-## Abstract
-
-Branded reports give a clean, clear and consistent message for data science teams in an organization. We walk through the process of building a latex template distributed through an R package. We begin with a short introduction to rmarkdown and some motivating examples for using branded reports. Then, we demonstrate from scratch how one can build a minimal latex template, and distribute in a R package. We describe some best practices for branding and highlight use of ggplot2 themes to match document branding. Finally, we walk through some further uses such as parameterized reports, using the template for bookdown, and recommendation for deploying the R package at your company.
-
-## Learning Objectives
-
-The student should be able to walk away from this class with:
-
-1. a general understanding of rmarkdown,
-2. why it is important to have branded reports,
-3. a R package with a latex template that uses their companies branding,
-4. understanding of best practices in branding,
-5. use of ggplot2 themes,
-6. and some possible further uses for the using and distributing the template.
-
-## About the Instructor
-
-Ben Barnard is a Data Scientist at Wells Fargo in the Team Member Insights group. Ben has a PhD from Baylor University in Statistics.
-
-Jeff Idle is an Analytic Manager at Wells Fargo in the Team Member Insights group. Jeff leads the HR Advanced Analytics & Architecture team. Jeff is currently pursuing a MBA from the University of Minnesota's Carlson School of Management.
-
-
-## Relevance to Conference Goals
-
-We stress using branded reports to communicate clean, clear and consistent messages to your audience. Communication is the most important part of Data Science since decision makers are rarely analytic experts. Branded reports bring a certain professionalism that will be greatly appreciated by administration. Building the latex templates saves time and makes sure every report comes out looking the same. Consistently branded reports allows your team to be recognized immediately by your work product.
-
-\newpage
-
-# Getting Started
-
-
-
-\newpage
-
-# Introduction to R Markdown - 45 mins
+## Introduction to R Markdown
 
 We discuss the R Markdown document format developed by [RStudio](https://rstudio.com/). [R Markdown](https://rmarkdown.rstudio.com/) is a document format, and [`rmarkdown`](https://rmarkdown.rstudio.com/docs/) is an R package. There can be confusion when talking about the two, and in this course we are usually talking about the R Markdown document format. Most of this portion of the class uses references from the Rstudio R Markdown website, the `rmarkdown` package website and the [R Markdown book](https://bookdown.org/yihui/rmarkdown/). We will walk through creating an R Markdown document that we will use for the initial template of our branded document.
 
-## What is R Markdown
+### What is R Markdown?
 
-R Markdown is a document format built to embed R code chunks in Markdown documents. R Markdown documents remove most of the formatting aspects of report generation to a "back-end." R Markdown can be used to generate many different output some of which are websites, PDFs, presentations, shiny, and Word documents. In this course we are going to focus on PDFs documents, but in general the same R Markdown document can be used to produce all of the above with minimal changes.
+R Markdown is a document format built to embed R code chunks in Markdown documents. R Markdown documents remove most of the formatting aspects of report generation to a "back-end." R Markdown can be used to generate many different output some of which are websites, PDFs, presentations, shiny, and Word documents. In this course we are going to focus on PDF documents, but in general the same R Markdown document can be used to produce all of the above with minimal changes.
 
-## Why should I use R Markdown
+### Why should I use R Markdown?
 
 R markdown provides a medium to attach and run code inside the content for dashboards, articles, reports, websites, PowerPoint and books. This medium provides a reproducible and portable format that works with text based version control systems. These characteristics generally make R markdown documents easy to put into production systems 
 
@@ -68,16 +30,28 @@ R markdown provides a medium to attach and run code inside the content for dashb
 
 As previously mentioned R markdown plays well with text based version control systems, and that is because at its core an R markdown document is just a text file. R markdown files have .rmd extensions but you could potentially render any text file no matter the extension. If you expect the RStudio IDE to recognize an R markdown document it needs the .rmd extension. Let us take the easy route and create an R markdown document from the RStudio IDE menu.
 
-![](new_markdown_menu.png)
-
-![](new_markdown_thumbnail.png)
 
 
+```{r, echo=FALSE, eval = TRUE, fig.cap='Menu drop-down', out.width='50%'}
+knitr::include_graphics('images/new_markdown_menu.png', dpi = NA)
+```
+
+
+
+```{r, echo=FALSE, eval = TRUE, fig.cap='Thumbnail', out.width='20%'}
+knitr::include_graphics('images/new_markdown_thumbnail.png', dpi = NA)
+```
 
 
 ## Structure of an R Markdown document
 
-```{}
+The R markdown document consists of three parts:
+
+### The YAML header
+
+The YAML header contains metadata about the R markdown document such as the title, authors, and output of the document. Think of the YAML header as parameters for a set of directions that the Pandoc system will use. We will do a lot with the YAML header in this course.
+
+```yaml
 ---
 title: "Untitled"
 author: "Name"
@@ -86,17 +60,31 @@ output: pdf_document
 ---
 ```
 
+### Code chunks
+
+Code chucks contain analysis code for the report. This is what powers reproducibility in R markdown documents. Code chunks can run several different programming engines that we will discuss later. 
+
 ````markdown
 `r ''````{r}
 1 + 1
 ```
 ````
 
+### Unformatted text
+
+Unformatted text finishes out the body of the R markdown document. The formatting for the body is contained in template documents that Pandoc uses as directions.
+
+```
+## Executive Summary
+
+This analysis describes all sorts of cool things going on in your business.
+```
+
 ## PDF documents
 
 R markdown can be used to build PDFs documents using latex. We can usually tell what R markdown documents are going to render as PDFs by output specified in the yaml header.
 
-```{}
+```yaml
 ---
 title: "Untitled"
 author: "Name"
@@ -111,7 +99,7 @@ The PDFs_document output option actually references a function. We are going to 
 
 For longer reports and documents it is useful to have a Table of Contents. The PDFs documents generated from R markdown can automatically build the table of contents for you. We can build the table of contents by setting `toc: true` in the yaml options under the `pdf_document` output.  You might also notice that `toc` is a function call option in `pdf_document`, and we should expect it to be listed under `pdf_document` in the yaml.
 
-```{}
+```yaml
 ---
 title: "Untitled"
 author: "Name"
@@ -129,7 +117,7 @@ Another option under `pdf_document` was added with `toc`. The yaml `toc_depth` s
 
 The `pdf_document` function has several figure options you can put in the r markdown yaml header. The options `fig_width` and `fig_height` specify the default width and height in inches for figures in the document. You might notice that `fig_width` and `fig_height` have default values in the `pdf_document` function as 6.5 and 4.5 inches respectively. The `fig_crop` options controls whether the `pdfcrop` utility is used. The `pdfcrop` utility trims white-space or fixed borders from PDFs graphics. Most people wouldn't notice anything is being done, but it is recommended by the developers to use the `fig_crop` option. The `fig_crop` option is defaulted to `TRUE`. The `fig_caption` option controls whether captions should be rendered with figures. Finally, the `dev` option is for the graphics device used to produce figure output. The `dev` option is `pdf` by default but this could potentially be `png` or `jpeg`. I only ever find it worth while to change the `fig_height` and `fig_width` options to maximize the figure size on the viewable page.
 
-```{}
+```yaml
 title: "Unititled"
 output:
   pdf_document:
@@ -141,7 +129,7 @@ output:
 
 The `df_print` option lets us change the display of data frames in our output. Options include `default`, `kable`, and `tibble`. I never really just print data frames in my output, and there is generally some formatting before they are presentation ready. I usually leave this option as it is and build my presentation tables with the `xtable` package.
 
-```{}
+```yaml
 ---
 title: "Untitled"
 output:
@@ -196,7 +184,7 @@ Table: Bibliography formats
 
 There a a few options that allow us to do some more customization and debugging of the underlying LaTeX code. We can specify the `latex_engine` used such as `pdflatex`, `xelatex`, and `lualatex`. We can also keep the intermediate LaTeX code using `keep_tex: true`, and include snippets of LaTeX code in the document. The option `includes` allows us to put code `in_header`, `before_body`, and `after_body`. What wwe are going to end up using and is the power behind document templates is the `template` option, but we aren't going to specify our template in document YAML header.
 
-```{}
+```yaml
 ---
 title: "Habits"
 output:
@@ -220,7 +208,7 @@ Now that we have seen all these options lets start building a rmarkdown report o
 
 Our header should look something like this:
 
-```{}
+```yaml
 ---
 title: "Iris Petal and Sepal Length"
 author: "Ben Barnard"
@@ -235,7 +223,7 @@ I plan to run this report many times and I would like the date to update each ti
 
 To run R code in the YAML header we just need to add `!r` before the R code we wish to run. In this case I want to run `Sys.Date()` to use the run date for the report date.
 
-```{}
+```yaml
 ---
 title: "Iris Petal and Sepal Length"
 author: "Ben Barnard"
@@ -253,6 +241,7 @@ Notice the first code chunk in document. The `knitr::opts_chunk$set(echo = TRUE)
 
 ````markdown
 `r ''````{r setup, include=FALSE}
+library(ggplot2)
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 ```
 ````
@@ -262,13 +251,40 @@ Now lets add some body to the document. All analyses need some sort of introduct
 ```
 ## Executive Summary
 
-This analysis descrbes the design and results of our correlation analysis of iris sepal length and petal length. This is just a minimal example for our analysis template.
+This analysis descrbes the design and results of our correlation analysis of 
+iris sepal length and petal length. This is just a minimal example for our 
+analysis template.
 
-### 
+#### Audience:
+The Conference on Statistical Practice 2020 short course attendees. Future 
+attendees of this course.
 
+#### Background:
+This course was submitted to the Conference on Statistical Practice 2020. This 
+is the minimal example template we build in the course.
+
+
+#### Deliverables:
+A minimal working template for use in an R package to store and delivery latex 
+templates for r markdown documents.
+
+
+#### Deadline(s):
+The short course will be taught at the Conference on Statistical Practice 2020 
+on February 20, 2020.
 
 ```
 
+Finally lets add a plot into the document because no analysis is complete without a pretty picture.
+
+````markdown
+`r ''````{r}
+ggplot(data = iris) + 
+  geom_point(aes(x = Sepal.Length, y = Petal.Length, color = Species))
+```
+````
+
+We are going to improve on the formatting and themes of this document as we progress through this course.
 
 ## Rendering R Markdown documents
 
@@ -276,80 +292,151 @@ There are two ways to render an r markdown document using the knit button in the
 
 ### Knit
 
+The knit button is great for interactively building an r markdown document, and if you need to run an analysis one-time for somebody. With the limitation of having to press the knit button it isn't so great for automation.
+
+```{r, echo=FALSE, eval = TRUE, fig.cap='', out.width='20%'}
+knitr::include_graphics('images/knit_button.PNG', dpi = NA)
+```
 
 ### Render function
 
+The `render` function allows us to achieve the automation we want. The `render` function is also what we would embed in shiny apps to build our analyses. 
+
+```{r, echo=FALSE, eval = TRUE, fig.cap='', out.width='100%'}
+knitr::include_graphics('images/render_header.PNG', dpi = NA)
+```
+```{r, echo=FALSE, eval = TRUE, fig.cap='', out.width='100%'}
+knitr::include_graphics('images/render_arguments.PNG', dpi = NA)
+```
+```{r, echo=FALSE, eval = TRUE, fig.cap='', out.width='100%'}
+knitr::include_graphics('images/render_details.PNG', dpi = NA)
+```
+```{r, echo=FALSE, eval = TRUE, fig.cap='', out.width='100%'}
+knitr::include_graphics('images/render_end.PNG', dpi = NA)
+```
+
 ## Engines
 
-### Python
-### Shell Scripts
-### SQL
-### Rcpp
-### Stan
-### JavaScript
-### CSS
-### Julia
-### C
-### FORTRAN
+```{r, eval = TRUE}
+names(knitr::knit_engines$get())
+```
 
 
-\newpage
+##### Python
 
-# Introduction to R packages - 35 mins
+````markdown
+`r ''````{python}
+x = 'hello, python world!'
+print(x.split(' '))
+```
+````
 
-## What is an R package
+##### Shell Scripts
 
-## Why should I build R packages
+````markdown
+`r ''````{bash}
+echo "Hello Bash!"
+cat flights1.csv flights2.csv flights3.csv > flights.csv
+```
+````
 
-### Distribution
+##### SQL
 
-### Testing
+````markdown
+`r ''````{r}
+library(DBI)
+db = dbConnect(RSQLite::SQLite(), dbname = "sql.sqlite")
+```
 
-### Reproducibility
+`r ''````{sql, connection=db}
+SELECT * FROM trials
+```
+````
 
-### Documentation
+##### tikz
 
-## How to build your first R package
+````markdown
+`r ''````{tikz, tikz-ex, fig.cap = "Funky tikz", fig.ext = 'png', cache=TRUE}
+\usetikzlibrary{arrows}
+\begin{tikzpicture}[node distance=2cm, auto,>=latex', thick, scale = 0.5]
+\node (P) {$P$};
+\node (B) [right of=P] {$B$};
+\node (A) [below of=P] {$A$};
+\node (C) [below of=B] {$C$};
+\node (P1) [node distance=1.4cm, left of=P, above of=P] {$\hat{P}$};
+\draw[->] (P) to node {$f$} (B);
+\draw[->] (P) to node [swap] {$g$} (A);
+\draw[->] (A) to node [swap] {$f$} (C);
+\draw[->] (B) to node {$g$} (C);
+\draw[->, bend right] (P1) to node [swap] {$\hat{g}$} (A);
+\draw[->, bend left] (P1) to node {$\hat{f}$} (B);
+\draw[->, dashed] (P1) to node {$k$} (P);
+\end{tikzpicture}
+```
+````
 
-### GitHub
+## Parameterized Reports
 
-### usethis
-
-## Ways to distribute R packages
-
-### Source and binary
-
-### GitHub
-
-### drat
-
-### CRAN
-
-
-\newpage
-
-# Introduction to LaTex - 60 mins
-
-## What is LaTex
-
-## Why should I use LaTex
-
-### Reproducibility
-
-### Automation
-
-### Distribution
-
-### Not a Microsoft product
-
-## How to start your first LaTex document
-
-\newpage
-
-# Bringing It all together - 30 mins
+Parameterized reports are a way to build the same general reports while changing certain parameters in the report to run a completely different analysis. You can pass parameters in the `render` function and parameters can be set interactively. 
 
 
-\newpage
+```YAML
+---
+title: My Document
+output: html_document
+params:
+  year: 2018
+  region: Europe
+  printcode: TRUE
+  data: file.csv
+---
+```
 
-# Possible extensions - 35 mins
+Parameters are passed into the R markdown environment as the list `params`.
+
+### Interactive Parameters
+
+We have to declare parameters a little differently from above to interactive set parameters in a shiny instance. If you are building your own shiny app to build a report this is not necessary. 
+
+```YAML
+---
+title: My Document
+output: html_document
+params:
+  year:
+    label: "Year"
+    value: 2017
+    input: slider
+    min: 2010
+    max: 2018
+    step: 1
+    sep: ""
+  region:
+    label: "Region:"
+    value: Europe
+    input: select
+    choices: [North America, Europe, Asia, Africa]
+  printcode:
+    label: "Display Code:"
+    value: TRUE
+---
+```
+
+The options available are the input types available in the shiny package. Not every shiny input type works.
+
+| Input Type | Shiny Function |
+|------------|----------------|
+| checkbox   | checkboxInput  |
+| numeric	   | numericInput   |
+| slider	   | sliderInput    |
+| date	     | dateInput      |
+| text	     | textInput      |
+| file	     | fileInput      | 
+| radio	     | radioButtons   |
+| select	   | selectInput    | 
+| password	 | passwordInput  |
+
+Table: Input types for interactive parameterized reports
+   
+
 

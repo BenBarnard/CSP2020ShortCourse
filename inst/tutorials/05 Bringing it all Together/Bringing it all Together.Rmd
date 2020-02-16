@@ -1,0 +1,19 @@
+---
+title: "Bringing it All Together"
+description: "Bringing it all together for a short course at the Conference on Statistical Practice 2020"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Bringing It all together - 30 mins
+
+
+\newpage
+
+## Possible extensions - 35 mins

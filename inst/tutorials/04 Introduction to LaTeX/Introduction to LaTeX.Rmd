@@ -1,0 +1,28 @@
+---
+title: "Introduction to LaTeX"
+description: "An introductory course to LaTeX for a short course at the Conference on Statistical Practice 2020"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Introduction to LaTex - 60 mins
+
+### What is LaTex
+
+### Why should I use LaTex
+
+#### Reproducibility
+
+#### Automation
+
+#### Distribution
+
+#### Not a Microsoft product
+
+### How to start your first LaTex document

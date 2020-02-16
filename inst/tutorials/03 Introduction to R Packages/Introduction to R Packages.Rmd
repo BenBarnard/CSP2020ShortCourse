@@ -1,0 +1,86 @@
+---
+title: "Introduction to R Packages"
+description: "An introductory course to R packages for a short course at the Conference on Statistical Practice 2020"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE, fig.pos = 'H', fig.align="center")
+```
+
+
+## Introduction to R packages
+
+We discuss R packages, how they are going to be the deployment medium for our latex packages, and different ways we can deploy these packages.
+
+### What is an R package
+
+An R package brings together code, data, documentation and tests in a unit of code that is easily shared. R packages can be shared by their source or pre-built binaries. An R package is not a library, but a directory of files which extend R. 
+
+### Why should I build R packages
+
+R packages provide a testable structure to deploy R code, data, and reports for R code. Package development is very mature so building packages is very easy and standardized. Packages allow the developer to list all dependencies necessary to run functions in a namespace that avoids collisions.
+
+## How to build your R package
+
+In the following sections we are going to build our R package.
+
+### usethis
+
+To build out the package structure for us we are going to use the `usethis` R package. The `usethis` package does a lot of the legwork for us, and we provide the description from the package below.
+
+
+```{r, echo=FALSE, eval = TRUE, fig.cap='usethis description', out.width='100%'}
+knitr::include_graphics('images/description.png', dpi = NA)
+```
+
+To install we run:
+
+```{r}
+install.packages("usethis")
+```
+
+To create our package structure we will run:
+
+```{r}
+usethis::create_package(getwd())
+```
+
+The function creates a `DESCRIPTION`, `NAMESPACE`, and `.RBuildignore` files and a directory named `\R`. These are the minimum required components necessary to build and distribute and R package. 
+
+### Description
+
+### \\R 
+
+### `CSP_document`
+
+### \\inst
+
+### .Rbuildignore
+
+### NAMESPACE
+
+## R Markdown templates
+
+### \\inst\\rmarkdown\\templates
+
+### template.yaml
+
+### skeleton\\skeleton.Rmd
+
+### \\inst\\img
+
+## Ways to distribute R packages
+
+### Source and binary
+
+### GitHub
+
+### drat
+
+### CRAN
