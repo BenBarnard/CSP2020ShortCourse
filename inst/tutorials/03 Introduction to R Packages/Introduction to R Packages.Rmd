@@ -55,15 +55,53 @@ The function creates a `DESCRIPTION`, `NAMESPACE`, and `.RBuildignore` files and
 
 ### Description
 
+The `DESCRIPTION` file created had some limited areas filled out and we will need to complete it for documentation and so that the package builds and works correctly.
+
+```YAML
+Package: untitled
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "First",
+           family = "Last",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+License: What license it uses
+Encoding: UTF-8
+LazyData: true
+```
+We are also missing `Imports` which we will have to complete to make sure all the package dependencies are handled correctly. 
+
+```YAML
+Imports: rmarkdown
+```
+The `DESCRIPTION` contains the information necessary to understand what the package does, who maintains the package, what other packages it depends on, and the version. 
+
 ### \\R 
 
+The `\\R` folder contains all of the R script files containing the R packages R functions. We are going to use the R package `roxygen2` to build our function documentation imbedded in the R script files. There are all sorts of ways we could organize the R functions in the R scripts. Since our R package is going to have very few functions we are just going to have a function per script file.
+
 ### `CSP_document`
+
+
 
 ### \\inst
 
 ### .Rbuildignore
 
+The `.Rbuildignore` file contains the regular expression for files and directories that should be ignored when building R packages. This is only largely important if you are submitting your package to CRAN or certain directories and files might contain sentitive information. 
+
+```YAML
+\.Rproj$
+^\.Rproj\.user$
+.html$
+```
+
 ### NAMESPACE
+
+The R package `roxygen2` handles the building of the `NAMESPACE` file and you should never touch or alter the `NAMESPACE` file directly if you are using `roxygen2` to build your package documentation. That said knowing what the `NAMESPACE` file looks like is not a bad idea.
 
 ## R Markdown templates
 
@@ -79,8 +117,18 @@ The function creates a `DESCRIPTION`, `NAMESPACE`, and `.RBuildignore` files and
 
 ### Source and binary
 
+You can build the source files for your R package and distribute the package by just emailing it to someone. You can also build the binaries and distribute the package in a similar manner to the source. Distributing the package by source you run the risk that the intended audience might have to compile the package. Distributing the package by binaries requires the intended audience to be running the same version of R and operating system to install the package. 
+
+### CRAN
+
+CRAN is a network of ftp and web servers around the world that store identical, up-to-date, versions of code and documentation for R. If you use `install.packages` to install packages there is a good chance you use the CRAN network. 
+
 ### GitHub
+
+GitHub is a development platform using the Git text based versioning software. With the use of the `devtools` R package function `install_github`. For R packages on the GitHub website a user can install those repositories as R packages.
 
 ### drat
 
-### CRAN
+The R package `drat` is also a CRAN-like repository for R packages. These `drat` repositories can be set up on network drives, local file systems, GitHub, and webservers. Once you setup a `drat` repository you can set it up as a repsoitory using the `options` function.
+
+

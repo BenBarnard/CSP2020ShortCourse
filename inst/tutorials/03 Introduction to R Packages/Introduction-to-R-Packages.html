@@ -135,17 +135,40 @@ $(document).ready(function () {
 <h3>usethis</h3>
 <p>To build out the package structure for us we are going to use the <code>usethis</code> R package. The <code>usethis</code> package does a lot of the legwork for us, and we provide the description from the package below.</p>
 <div class="figure" style="text-align: center">
-<img src="images/description.png" alt="usethis description" width="100%" />
+<img src="images/description.PNG" alt="usethis description" width="100%" />
 <p class="caption">
 usethis description
 </p>
 </div>
+<p>To install we run:</p>
+<pre class="r"><code>install.packages(&quot;usethis&quot;)</code></pre>
+<p>To create our package structure we will run:</p>
+<pre class="r"><code>usethis::create_package(getwd())</code></pre>
+<p>The function creates a <code>DESCRIPTION</code>, <code>NAMESPACE</code>, and <code>.RBuildignore</code> files and a directory named <code>\R</code>. These are the minimum required components necessary to build and distribute and R package.</p>
 </div>
 <div id="section-description" class="section level3">
 <h3>Description</h3>
+<p>The <code>DESCRIPTION</code> file created had some limited areas filled out and we will need to complete it for documentation and so that the package builds and works correctly.</p>
+<pre class="yaml"><code>Package: untitled
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = &quot;First&quot;,
+           family = &quot;Last&quot;,
+           role = c(&quot;aut&quot;, &quot;cre&quot;),
+           email = &quot;first.last@example.com&quot;,
+           comment = c(ORCID = &quot;YOUR-ORCID-ID&quot;))
+Description: What the package does (one paragraph).
+License: What license it uses
+Encoding: UTF-8
+LazyData: true</code></pre>
+<p>We are also missing <code>Imports</code> which we will have to complete to make sure all the package dependencies are handled correctly.</p>
+<pre class="yaml"><code>Imports: rmarkdown</code></pre>
+<p>The <code>DESCRIPTION</code> contains the information necessary to understand what the package does, who maintains the package, what other packages it depends on, and the version.</p>
 </div>
 <div id="section-r" class="section level3">
 <h3>\R</h3>
+<p>The <code>\\R</code> folder contains all of the R script files containing the R packages R functions. We are going to use the R package <code>roxygen2</code> to build our function documentation imbedded in the R script files. There are all sorts of ways we could organize the R functions in the R scripts. Since our R package is going to have very few functions we are just going to have a function per script file.</p>
 </div>
 <div id="section-csp_document" class="section level3">
 <h3><code>CSP_document</code></h3>
@@ -155,9 +178,14 @@ usethis description
 </div>
 <div id="section-rbuildignore" class="section level3">
 <h3>.Rbuildignore</h3>
+<p>The <code>.Rbuildignore</code> file contains the regular expression for files and directories that should be ignored when building R packages. This is only largely important if you are submitting your package to CRAN or certain directories and files might contain sentitive information.</p>
+<pre class="yaml"><code>\.Rproj$
+^\.Rproj\.user$
+.html$</code></pre>
 </div>
 <div id="section-namespace" class="section level3">
 <h3>NAMESPACE</h3>
+<p>The R package <code>roxygen2</code> handles the building of the <code>NAMESPACE</code> file and you should never touch or alter the <code>NAMESPACE</code> file directly if you are using <code>roxygen2</code> to build your package documentation. That said knowing what the <code>NAMESPACE</code> file looks like is not a bad idea.</p>
 </div>
 </div>
 <div id="section-r-markdown-templates" class="section level2">
@@ -179,15 +207,19 @@ usethis description
 <h2>Ways to distribute R packages</h2>
 <div id="section-source-and-binary" class="section level3">
 <h3>Source and binary</h3>
-</div>
-<div id="section-github" class="section level3">
-<h3>GitHub</h3>
-</div>
-<div id="section-drat" class="section level3">
-<h3>drat</h3>
+<p>You can build the source files for your R package and distribute the package by just emailing it to someone. You can also build the binaries and distribute the package in a similar manner to the source. Distributing the package by source you run the risk that the intended audience might have to compile the package. Distributing the package by binaries requires the intended audience to be running the same version of R and operating system to install the package.</p>
 </div>
 <div id="section-cran" class="section level3">
 <h3>CRAN</h3>
+<p>CRAN is a network of ftp and web servers around the world that store identical, up-to-date, versions of code and documentation for R. If you use <code>install.packages</code> to install packages there is a good chance you use the CRAN network.</p>
+</div>
+<div id="section-github" class="section level3">
+<h3>GitHub</h3>
+<p>GitHub is a development platform using the Git text based versioning software. With the use of the <code>devtools</code> R package function <code>install_github</code>. For R packages on the GitHub website a user can install those repositories as R packages.</p>
+</div>
+<div id="section-drat" class="section level3">
+<h3>drat</h3>
+<p>The R package <code>drat</code> is also a CRAN-like repository for R packages. These <code>drat</code> repositories can be set up on network drives, local file systems, GitHub, and webservers. Once you setup a <code>drat</code> repository you can set it up as a repsoitory using the <code>options</code> function.</p>
 
 <script type="application/shiny-prerendered" data-context="server-start">
 library(learnr)
@@ -210,7 +242,7 @@ session$onSessionEnded(function() {
 <!--/html_preserve-->
 <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="execution_dependencies">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37]}},"value":[{"type":"character","attributes":{},"value":["backports","base","compiler","datasets","digest","evaluate","fastmap","graphics","grDevices","highr","htmltools","htmlwidgets","httpuv","jsonlite","knitr","later","learnr","magrittr","markdown","methods","mime","promises","R6","Rcpp","rlang","rmarkdown","rprojroot","shiny","stats","stringi","stringr","tools","utils","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.1.5","3.6.1","3.6.1","3.6.1","0.6.22","0.14","1.0.1","3.6.1","3.6.1","0.8","0.4.0","1.5.1","1.5.2","1.6","1.26","1.0.0","0.10.1","1.5","1.0","3.6.1","0.7","1.1.0","2.4.1","1.0.3","0.4.1","1.17","1.3-2","1.4.0","3.6.1","1.4.3","1.4.0","3.6.1","3.6.1","2.1.2","0.11","1.8-4","2.2.0"]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37]}},"value":[{"type":"character","attributes":{},"value":["backports","base","compiler","datasets","digest","evaluate","fastmap","graphics","grDevices","highr","htmltools","htmlwidgets","httpuv","jsonlite","knitr","later","learnr","magrittr","markdown","methods","mime","promises","R6","Rcpp","rlang","rmarkdown","rprojroot","shiny","stats","stringi","stringr","tools","utils","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.1.5","3.6.1","3.6.1","3.6.1","0.6.23","0.14","1.0.1","3.6.1","3.6.1","0.8","0.4.0","1.5.1","1.5.2","1.6","1.26","1.0.0","0.10.1","1.5","1.1","3.6.1","0.7","1.1.0","2.4.1","1.0.3","0.4.2","1.17","1.3-2","1.4.0","3.6.1","1.4.3","1.4.0","3.6.1","3.6.1","2.1.2","0.11","1.8-4","2.2.0"]}]}]}
 </script>
 <!--/html_preserve-->
 </div>
