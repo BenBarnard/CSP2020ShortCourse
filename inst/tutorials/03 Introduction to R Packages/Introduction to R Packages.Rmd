@@ -58,7 +58,7 @@ The function creates a `DESCRIPTION`, `NAMESPACE`, and `.RBuildignore` files and
 The `DESCRIPTION` file created had some limited areas filled out and we will need to complete it for documentation and so that the package builds and works correctly.
 
 ```YAML
-Package: untitled
+Package: CSP
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: 
@@ -83,20 +83,74 @@ The `DESCRIPTION` contains the information necessary to understand what the pack
 
 The `\\R` folder contains all of the R script files containing the R packages R functions. We are going to use the R package `roxygen2` to build our function documentation imbedded in the R script files. There are all sorts of ways we could organize the R functions in the R scripts. Since our R package is going to have very few functions we are just going to have a function per script file.
 
-### `CSP_document`
+### `csp_document`
 
+We are now going to create our own function that wraps `pdf_document`. This function will serve the same purpose, but call our LaTeX template. Notice below that we include a line with `Sys.setenv`. We use this line so that LaTeX can find files we might include in our R package.
 
+```{r}
+csp_document <- function(toc = FALSE,
+                         toc_depth = 2,
+                         number_sections = FALSE,
+                         fig_width = 6.5,
+                         fig_height = 4.5,
+                         fig_crop = TRUE,
+                         fig_caption = TRUE,
+                         dev = 'pdf',
+                         df_print = "default",
+                         highlight = "default",
+                         template = system.file("rmarkdown", "templates", 
+                                                "csp_template", "resources",
+                                                "csp_template.tex",
+                                                package = "CSP"),
+                         keep_tex = FALSE,
+                         keep_md = FALSE,
+                         latex_engine = "pdflatex",
+                         citation_package = c("none", "natbib", "biblatex"),
+                         includes = NULL,
+                         md_extensions = NULL,
+                         output_extensions = NULL,
+                         pandoc_args = NULL,
+                         extra_dependencies = NULL){
+  
+  Sys.setenv(TEXINPUTS = system.file(package = "CSP"))
+  
+  pdf_document(toc = toc, toc_depth = toc_depth, 
+               number_sections = numbered_sections, fig_width = fig_width,
+               fig_height = fig_height, fig_crop = fig_crop, 
+               fig_caption = fig_caption, dev = dev, df_print = df_print,
+               highlight = highlight,  template = template, keep_tex = keep_tex,
+               keep_md = keep_md, latex_engine = latex_engine,
+               citation_package = citation_package, includes = includes, 
+               md_extensions = md_extensions, 
+               output_extensions = output_extensions, pandoc_args = pandoc_args,
+               extra_dependencies = extra_dependencies)
+                         }
+```
+
+Now that we have made our function we need to document.
+
+```{r}
+#' Conference on Statistical Practice R Markdown Document Template
+#'
+#' @export
+#' @inheritParams rmarkdown::pdf_document
+#' @importFrom rmarkdown pdf_document
+```
+
+We can add more documentation, but this function won't be used on its own very much so this is probably sufficient.
 
 ### \\inst
 
+The `create_package` function did not create another directory that we will need. The `\inst` folder will contain our template, and any other resources we might want to install with the package. At install the `\inst` folder will no longer exist, but everything in its directory will be installed in the main directory of the package.
+
 ### .Rbuildignore
 
-The `.Rbuildignore` file contains the regular expression for files and directories that should be ignored when building R packages. This is only largely important if you are submitting your package to CRAN or certain directories and files might contain sentitive information. 
+The `.Rbuildignore` file contains the regular expression for files and directories that should be ignored when building R packages. This is only largely important if you are submitting your package to CRAN or certain directories and files might contain sensitive information. 
 
 ```YAML
 \.Rproj$
 ^\.Rproj\.user$
-.html$
+*.html$
 ```
 
 ### NAMESPACE
@@ -105,15 +159,34 @@ The R package `roxygen2` handles the building of the `NAMESPACE` file and you sh
 
 ## R Markdown templates
 
+In order to register our R markdown template with the RStudio IDE we need to place it in a certain directory hierarchy and include a description file. Registering the template will allow use to use the RStudio menu to create a new R markdown document with our template. 
+
 ### \\inst\\rmarkdown\\templates
+
+We can use the `usethis` package again to help us build the necessary file structure so that the RStudio IDE can find our R markdown template. The `use_rmarkdown_template` function will build out our file structure. R markdown templates must be in the templates folder in the rmarkdown folder. An R package can contain many templates. Each template will have it's own directory in the templates folder.
 
 ### template.yaml
 
+The `template.yaml` file contains the name and description of the R markdown template. This file is in the template's directory.
+
+```YAML
+name: Template Name
+description: >
+   A description of the template
+create_dir: FALSE
+```
+
 ### skeleton\\skeleton.Rmd
 
-### \\inst\\img
+The `skeleton\` directory will contain the R markdown document we have been creating. This directory will also contain any supporting resources the R markdown template might require. Potential resources could include images, LaTeX files, and R scripts. We will not need any other resources for our template.
+
+### \\inst\\images
+
+Recall when we used `Sys.setenv` in our `csp_document` function. Since we set the `CSP` R package as a directory for LaTeX inputs. We create the `images\` directory in the `inst\` directory to place any logos that we might want with our branded template.
 
 ## Ways to distribute R packages
+
+There are multiple ways to distribute R packages, and we discuss a few in the following sections.
 
 ### Source and binary
 
