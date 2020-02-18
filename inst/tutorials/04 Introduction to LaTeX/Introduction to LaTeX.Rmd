@@ -40,52 +40,67 @@ LaTeX is based on the idea that it is better to leave document design to documen
 
 ## How to start your LaTex template
 
+I don't plan to teach you LaTeX in this course we don't have enough time, but for those of you that have work with html and to some extent R markdown what we do go over shouldn't be to unfamiliar. A LaTex document is just a text document that follows a certain format.
+
 ### The Pandoc template
+
+Great news! We will not be building a LaTeX document from scratch. We will grab the the latex template from our learning materials. 
 
 ### `fancyheader` and `lastpage`
 
+We will use the `fancyheader` and `lastpage` LaTeX packages to the headers and footers for the first (title), body, and last pages in our template. The body will have a light gray rule across the header and footer. The right side header will have your group name. The right side footer will have "Page <page #> of <last page #>", and the left footer will have "Confidnetial. Internal Use Only." The last page retains the header and the first page retains the footer.
+
 ```
-\usepackage[includeheadfoot,margin=0.5in, paperwidth = \pgwidth, paperheight = \pgheight]{geometry}
+\usepackage[includeheadfoot, margin=0.5in, 
+             paperwidth = 8.5in, paperheight = 11in]{geometry}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
+
+
 \fancypagestyle{body}{
-\fancyhf{}
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\headrule}{\hbox to\headwidth{\color{lightgray}\leaders\hrule height \headrulewidth\hfill}}
-\renewcommand{\footrulewidth}{0.4pt}
-\renewcommand{\footrule}{\hbox to\headwidth{\color{lightgray}\leaders\hrule height \footrulewidth\hfill}}
-\rhead{\color{lightgray}\uppercase{$group$}}
-\rfoot{\color{lightgray}\hfill Page \thepage \ of \pageref*{LastPage}}
-\lfoot{\color{lightgray}Confidential. Internal Use Only.}
+    \fancyhf{}
+    \renewcommand{\headrulewidth}{0.4pt}
+    \renewcommand{\headrule}{\hbox to\headwidth{\color{lightgray}\leaders\hrule height \headrulewidth\hfill}}
+    \renewcommand{\footrulewidth}{0.4pt}
+    \renewcommand{\footrule}{\hbox to\headwidth{\color{lightgray}\leaders\hrule height \footrulewidth\hfill}}
+    \rhead{\color{lightgray}\uppercase{$group$}}
+    \rfoot{\color{lightgray}\hfill Page \thepage \ of \pageref*{LastPage}}
+    \lfoot{\color{lightgray}Confidential. Internal Use Only.}
 }
 
 \fancypagestyle{finalpage}{
-\fancyhf{}
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0pt}
-\renewcommand{\headrule}{\hbox to\headwidth{\color{lightgray}\leaders\hrule height \headrulewidth\hfill}}
-\rhead{\color{lightgray}\uppercase{$group$}}
+    \fancyhf{}
+    \renewcommand{\headrulewidth}{0.4pt}
+    \renewcommand{\footrulewidth}{0pt}
+    \renewcommand{\headrule}{\hbox to\headwidth{\color{lightgray}\leaders\hrule height \headrulewidth\hfill}}
+    \rhead{\color{lightgray}\uppercase{$group$}}
 }
 
 \fancypagestyle{firstpage}{
-\fancyhf{}
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0.4pt}
-\renewcommand{\footrule}{\hbox to\headwidth{\color{lightgray}\leaders\hrule height \footrulewidth\hfill}}
-\rfoot{\color{lightgray}\hfill Page \thepage \ of \pageref*{LastPage}}
-\lfoot{\color{lightgray}Confidential. Internal Use Only.}
+    \fancyhf{}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0.4pt}
+    \renewcommand{\footrule}{\hbox to\headwidth{\color{lightgray}\leaders\hrule height \footrulewidth\hfill}}
+    \rfoot{\color{lightgray}\hfill Page \thepage \ of \pageref*{LastPage}}
+    \lfoot{\color{lightgray}Confidential. Internal Use Only.}
 }
+
+\pagestyle{body}
 ```
 ### Defining Colors
+
+Here we are going to define a color that we will use for our section headers. We use the `xcolor` LaTeX package because it allows use to define the color using hexadecimal.
 
 ```
 \usepackage[table]{xcolor}
 
-\definecolor{wellsFargoRed}{HTML}{BB0826}
+\definecolor{Red}{HTML}{BB0826}
 
 ```
 
 ### San Serif font
+
+I am going to want to build these documents with `pdflatex`. Building with `pdflatex` does limit our font options since `pdflatex` doesn't have great font support. Here I am using a san serif font. 
 
 ```
 \usepackage{arev}
@@ -94,21 +109,25 @@ LaTeX is based on the idea that it is better to leave document design to documen
 
 ### Titles for Section Heirarchy
 
+We use the `titlesec` to help us change the formatting of the section titles. Notice we only sepcify six tiers in our heirarchy. Font sizes can be difficult, and I would recommend you look up the proper way to proportion the height and width of the font. 
+
 ```
 \usepackage{titlesec}
 \titleformat*{\section}
-  {\sectionfont\fontsize{18}{21.6}\selectfont\color{wellsFargoRed}\bfseries}
+  {\sectionfont\fontsize{18}{21.6}\selectfont\color{Red}\bfseries}
 \titleformat*{\subsection}
-  {\sectionfont\fontsize{16}{19.2}\selectfont\color{wellsFargoRed}\bfseries}
+  {\sectionfont\fontsize{16}{19.2}\selectfont\color{Red}\bfseries}
 \titleformat*{\subsubsection}
-  {\sectionfont\fontsize{14}{16.8}\selectfont\color{wellsFargoRed}\bfseries}
+  {\sectionfont\fontsize{14}{16.8}\selectfont\color{Red}\bfseries}
 \titleformat*{\paragraph}
-  {\sectionfont\fontsize{13}{15.6}\selectfont\color{wellsFargoRed}\bfseries}
+  {\sectionfont\fontsize{13}{15.6}\selectfont\color{Red}\bfseries}
 \titleformat*{\subparagraph}
-  {\sectionfont\fontsize{12}{14.4}\selectfont\color{wellsFargoRed}\bfseries}
+  {\sectionfont\fontsize{12}{14.4}\selectfont\color{Red}\bfseries}
 ```
 
 ### Landscaping
+
+Every so often you might find that you have a table or figure that would be better served on a landscaped page. R markdown doesn't handle LaTeX `\begin{}` and `\end{}` tags very well. We create new commands so that we can begin and end landscape pages in our R markdown documents.
 
 ```
 \usepackage{pdflscape}
@@ -118,6 +137,8 @@ LaTeX is based on the idea that it is better to leave document design to documen
 
 ### `tikz`
 
+The `tikz` system in LaTeX provides some interesting options for our documents, and I recommend that you check out all the possibilities that `tikz` provides. We are going to use `tikz` to help us place our logos in the document and provide some debugging for those logos.
+
 ```
 \usepackage{pgf}
 \usepackage{pgfplots}
@@ -126,27 +147,50 @@ LaTeX is based on the idea that it is better to leave document design to documen
 
 ### Title Page
 
+Our title page is probably the most complex, but some of this is of our own doing. If you are familiar with LaTeX some of this might seem strange to you. The \$ signs allow us to create if statements, for loops and call variables we specified in the R markdown YAML. 
+
 ```
 \thispagestyle{firstpage}
 
 \begin{tikzpicture}[remember picture]
-%% Logo Placement
-    \node[rectangle, $if(boxes)$draw=$boxes$,$endif$ anchor=north east, inner sep=0in](logo) at (current page.north east)
-      {\includegraphics[width=1in]{img/logo-flat}};
+    \node[rectangle, 
+        $if(boxes)$
+            draw=$boxes$,
+        $endif$ 
+        anchor=north east, inner sep=0in](logo) at (current page.north east)
+        {\includegraphics[width=1in]{images/logoHeader}};
 
-    \node[rectangle, $if(boxes)$draw=$boxes$,$endif$ anchor=north west, text width=\pgwidth - 2in, left](DateTMI) at (logo.west)
-      {$if(date)${\fontsize{14}{16.8}\selectfont $date$ \par}$endif$ {\fontsize{18}{21.6}\selectfont Team Member Insights \par} {\fontsize{14}{16.8}\selectfont $group$ \par}};
+    \node[rectangle, 
+        $if(boxes)$
+            draw=$boxes$,
+        $endif$ 
+        anchor=north west, text width=\pgwidth - 2in, left](DateTMI) at (logo.west)
+        {
+        $if(date)$
+            {\fontsize{14}{16.8}\selectfont $date$ \par}
+        $endif$ 
+        {\fontsize{18}{21.6}\selectfont $Team$ \par} {\fontsize{14}{16.8}\selectfont $group$ \par}};
 
-     \node[rectangle, $if(boxes)$draw=$boxes$,$endif$ anchor=north east, text width=\pgwidth - 1in, inner ysep=0.1in](authors) at
-      (logo.south east){$if(authors)$ $for(authors)$  $authors.name$ \hfill $endfor$ \\ $for(authors)$ $authors.email$ \hfill $endfor$ $endif$};
+     \node[rectangle, 
+         $if(boxes)$
+             draw=$boxes$,
+         $endif$ 
+         anchor=north east, text width=\pgwidth - 1in, inner ysep=0.1in](authors) at (logo.south east){
+         $if(authors)$ 
+             $for(authors)$  
+                 $authors.name$ \hfill 
+             $endfor$ \\ 
+             $for(authors)$ 
+                 $authors.email$ \hfill 
+             $endfor$ 
+          $endif$};
 
-      \node[rectangle, $if(boxes)$draw=$boxes$,$endif$ anchor=north east, text width=\pgwidth - 1in](hrule) at
-      (authors.south east){\rule{\textwidth}{4pt}};
-
+      \node[rectangle, 
+          $if(boxes)$
+              draw=$boxes$,
+          $endif$ 
+          anchor=north east, text width=\pgwidth - 1in](hrule) at (authors.south east){\rule{\textwidth}{4pt}};
 \end{tikzpicture}
-
-
-
 
 $if(title)${\fontsize{22}{26.4}\selectfont \textbf{$title$} \par}$endif$
 $if(subtitle)${\fontsize{20}{24}\selectfont \textbf{$subtitle$} \par}$endif$
@@ -154,9 +198,15 @@ $if(subtitle)${\fontsize{20}{24}\selectfont \textbf{$subtitle$} \par}$endif$
 
 ### Footer logo
 
+Here the footer logo is placed in the lower right of the page. This sometimes will force a new page to be created if the image can't fit properly on the bottom.
+
 ```
 \begin{tikzpicture}[remember picture, overlay]
-   \node[rectangle, $if(boxes)$draw=$boxes$,$endif$ anchor=south east,inner sep=0.5in] at (current page.south east){\includegraphics[width=4in]{img/stagecoach}};
+   \node[rectangle, 
+       $if(boxes)$
+           draw=$boxes$,
+       $endif$ 
+       anchor=south east,inner sep=0.5in] at (current page.south east){\includegraphics[width=4in]{images/footerlogo}};
  \end{tikzpicture}
 
 %\thispagestyle{finalpage}
