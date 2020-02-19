@@ -40,3 +40,13 @@ We stress using branded reports to communicate clean, clear and consistent messa
 
 ## Getting Started
 
+You have two options either have RStudio, R, and TexLive installed, or use RStudio cloud. I will not provide install support for the above mentioned software because we could be working on that all day. I will walk through getting setup with RStudio Cloud and let the others know when they can jump in.
+
+```{r}
+install.packages("devtools")
+devtools::install_github("BenBarnard/CSP2020ShortCourse")
+```
+
+
+
+
