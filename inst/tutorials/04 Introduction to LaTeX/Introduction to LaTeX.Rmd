@@ -98,14 +98,6 @@ Here we are going to define a color that we will use for our section headers. We
 
 ```
 
-### San Serif font
-
-I am going to want to build these documents with `pdflatex`. Building with `pdflatex` does limit our font options since `pdflatex` doesn't have great font support. Here I am using a san serif font. 
-
-```
-\usepackage{arev}
-\usepackage[T1]{fontenc}
-```
 
 ### Titles for Section Heirarchy
 
@@ -114,15 +106,15 @@ We use the `titlesec` to help us change the formatting of the section titles. No
 ```
 \usepackage{titlesec}
 \titleformat*{\section}
-  {\sectionfont\fontsize{18}{21.6}\selectfont\color{Red}\bfseries}
+  {\fontsize{18}{21.6}\selectfont\color{Red}\bfseries}
 \titleformat*{\subsection}
-  {\sectionfont\fontsize{16}{19.2}\selectfont\color{Red}\bfseries}
+  {\fontsize{16}{19.2}\selectfont\color{Red}\bfseries}
 \titleformat*{\subsubsection}
-  {\sectionfont\fontsize{14}{16.8}\selectfont\color{Red}\bfseries}
+  {\fontsize{14}{16.8}\selectfont\color{Red}\bfseries}
 \titleformat*{\paragraph}
-  {\sectionfont\fontsize{13}{15.6}\selectfont\color{Red}\bfseries}
+  {\fontsize{13}{15.6}\selectfont\color{Red}\bfseries}
 \titleformat*{\subparagraph}
-  {\sectionfont\fontsize{12}{14.4}\selectfont\color{Red}\bfseries}
+  {\fontsize{12}{14.4}\selectfont\color{Red}\bfseries}
 ```
 
 ### Landscaping
@@ -143,6 +135,7 @@ The `tikz` system in LaTeX provides some interesting options for our documents, 
 \usepackage{pgf}
 \usepackage{pgfplots}
 \usetikzlibrary{shapes,arrows,positioning, mindmap, backgrounds, tikzmark, arrows.meta}
+\pgfplotsset{compat=1.13}
 ```
 
 ### Title Page
@@ -158,24 +151,24 @@ Our title page is probably the most complex, but some of this is of our own doin
             draw=$boxes$,
         $endif$ 
         anchor=north east, inner sep=0in](logo) at (current page.north east)
-        {\includegraphics[width=1in]{images/logoHeader}};
+        {\includegraphics[width=1in]{logoHeader}};
 
     \node[rectangle, 
         $if(boxes)$
             draw=$boxes$,
         $endif$ 
-        anchor=north west, text width=\pgwidth - 2in, left](DateTMI) at (logo.west)
+        anchor=north west, text width=8.5in - 2in, left](DateTMI) at (logo.west)
         {
         $if(date)$
-            {\fontsize{14}{16.8}\selectfont $date$ \par}
+            {\fontsize{14}{16.8} $date$ \par}
         $endif$ 
-        {\fontsize{18}{21.6}\selectfont $Team$ \par} {\fontsize{14}{16.8}\selectfont $Group$ \par}};
+        {\fontsize{18}{21.6} $Team$ \par} {\fontsize{14}{16.8} $Group$ \par}};
 
      \node[rectangle, 
          $if(boxes)$
              draw=$boxes$,
          $endif$ 
-         anchor=north east, text width=\pgwidth - 1in, inner ysep=0.1in](authors) at (logo.south east){
+         anchor=north east, text width=8.5in - 1in, inner ysep=0.1in](authors) at (logo.south east){
          $if(authors)$ 
              $for(authors)$  
                  $authors.name$ \hfill 
@@ -189,11 +182,11 @@ Our title page is probably the most complex, but some of this is of our own doin
           $if(boxes)$
               draw=$boxes$,
           $endif$ 
-          anchor=north east, text width=\pgwidth - 1in](hrule) at (authors.south east){\rule{\textwidth}{4pt}};
+          anchor=north east, text width=8.5in - 1in](hrule) at (authors.south east){\rule{\textwidth}{4pt}};
 \end{tikzpicture}
 
-$if(title)${\fontsize{22}{26.4}\selectfont \textbf{$title$} \par}$endif$
-$if(subtitle)${\fontsize{20}{24}\selectfont \textbf{$subtitle$} \par}$endif$
+$if(title)${\Huge \textbf{$title$} \par}$endif$
+$if(subtitle)${\huge \textbf{$subtitle$} \par}$endif$
 ```
 
 ### Footer logo
@@ -206,7 +199,7 @@ Here the footer logo is placed in the lower right of the page. This sometimes wi
        $if(boxes)$
            draw=$boxes$,
        $endif$ 
-       anchor=south east,inner sep=0.5in] at (current page.south east){\includegraphics[width=4in]{images/footerlogo}};
+       anchor=south east,inner sep=0.5in] at (current page.south east){\includegraphics[width=4in]{footerlogo}};
  \end{tikzpicture}
 
 \thispagestyle{finalpage}
