@@ -112,7 +112,6 @@ csp_document <- function(toc = FALSE,
                          pandoc_args = NULL,
                          extra_dependencies = NULL){
   
-  Sys.setenv(TEXINPUTS = system.file(package = "CSP"))
   
   pdf_document(toc = toc, toc_depth = toc_depth, 
                number_sections = number_sections, fig_width = fig_width,
@@ -180,9 +179,6 @@ create_dir: FALSE
 
 The `skeleton\` directory will contain the R markdown document we have been creating. This directory will also contain any supporting resources the R markdown template might require. Potential resources could include images, LaTeX files, and R scripts. We will not need any other resources for our template.
 
-### \\inst\\images
-
-Recall when we used `Sys.setenv` in our `csp_document` function. Since we set the `CSP` R package as a directory for LaTeX inputs. We create the `images\` directory in the `inst\` directory to place any logos that we might want with our branded template.
 
 ## Ways to distribute R packages
 
