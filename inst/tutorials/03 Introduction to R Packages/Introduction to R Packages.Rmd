@@ -36,7 +36,7 @@ To build out the package structure for us we are going to use the `usethis` R pa
 
 
 ```{r, echo=FALSE, eval = TRUE, fig.cap='usethis description', out.width='100%'}
-knitr::include_graphics('images/description.png', dpi = NA)
+knitr::include_graphics('images/description.PNG', dpi = NA)
 ```
 
 To install we run:
@@ -115,7 +115,7 @@ csp_document <- function(toc = FALSE,
   Sys.setenv(TEXINPUTS = system.file(package = "CSP"))
   
   pdf_document(toc = toc, toc_depth = toc_depth, 
-               number_sections = numbered_sections, fig_width = fig_width,
+               number_sections = number_sections, fig_width = fig_width,
                fig_height = fig_height, fig_crop = fig_crop, 
                fig_caption = fig_caption, dev = dev, df_print = df_print,
                highlight = highlight,  template = template, keep_tex = keep_tex,
